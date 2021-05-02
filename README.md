@@ -1,3 +1,1 @@
 # PythonDesktopApp-Prototype
-
-salut
