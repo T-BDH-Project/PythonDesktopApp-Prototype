@@ -1,0 +1,9 @@
+===================Prérequis===================
+
+__version__:
+Python 3.7 ou plus
+
+
+__packages__:
+psutil (https://pypi.org/project/psutil/)
+speedtest (https://pypi.org/project/speedtest-cli/)
