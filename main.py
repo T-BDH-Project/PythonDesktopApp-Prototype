@@ -5,7 +5,6 @@ import speedtest
 from math import *
 import prosses
 
-
 #=====Parametre de la fenetre=====
 fen=Tk()
 fen.title("Paramètres")
