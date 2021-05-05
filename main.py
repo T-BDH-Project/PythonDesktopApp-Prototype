@@ -17,7 +17,7 @@ grille=Canvas(fen,height=400,width=250)
 grille.grid(row=0,column=0)
 
 
-global final_per
+#On dois bouger le label du prix
 
 
 
@@ -59,22 +59,25 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 	conf.resizable(width=False,height=False)
 	conf.geometry("500x250")
 	conf.iconbitmap('icon.ico')
-	avertissement()
-	
-
 
 	grille_conf = Canvas(conf,height=250,width=500)
 	grille_conf.grid(row=0,column=0)
+
+	
+	
+	avertissement()
 	servers = []
 	threads = None
-
+			
 	s = speedtest.Speedtest(timeout=3)
 	s.get_servers(servers)
 	s.get_best_server()
 	s.download(threads=threads)
 
+
 	results_dict = s.results.dict()
 	bp = round(s.results.download/1000000, 1)
+	
 	stock = round(psutil.disk_usage('/').free/1073741274)
 	commi = 30
 	if all_yes == True:
@@ -86,7 +89,7 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 		two_pr = one_pr - ((commi/100)*one_pr)
 		final_per = round(one_pr - two_pr, 2)
 		prix_reste = one_pr - final_per
-	else: 
+	else:
 		text = f'Vous allez allouer:\n {nbre_core} cœurs\n{nbre_ram} GB de RAM\n{nbre_stockage} GB de stockage\net {bp} Mb/s de bande passante'
 		a = 250
 		b = 90
@@ -98,7 +101,7 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 		one_pr = round((cores_number*0.65)+(ram_number*0.50)+(stockage_number*0.030)+(bp_number*0.01),2)
 		per = (commi * one_pr) / 100.0
 		final_per = one_pr-per
-		
+
 	
 	text_conf_global = Label(conf, text=text, font=("Arial", 12), fg="red")
 	grille_conf.create_window(a,b, window=text_conf_global)
@@ -108,8 +111,8 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 
 
 
-	text_prix = Label(conf, text=f"Votre gain:\n{round(final_per, 2)} €", font=("Arial", 7), fg="red")
-	grille_conf.create_window(250,90, window=text_prix)
+	text_prix = Label(conf, text=f"Votre gain:\n{round(final_per, 2)} €", font=("Arial", 10), fg="red")
+	grille_conf.create_window(400,190, window=text_prix)
 
 
 	btn_conf = Button(conf, text ="Valider", command = conf_validate, font=("Arial", 12), bg="#D5D7C9")
