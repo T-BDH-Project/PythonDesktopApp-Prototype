@@ -4,6 +4,8 @@ import psutil
 import speedtest
 from math import *
 import prosses
+from functools import partial
+
 
 #=====Parametre de la fenetre=====
 fen=Tk()
@@ -22,6 +24,17 @@ grille.grid(row=0,column=0)
 
 
 #=====Les fonctions=====
+def validateLogin(username, password, log):
+	user = username.get()
+	passw = password.get()
+	print(f"username entré : {user}")
+	print(f"password entré : {passw}")
+	log.withdraw()
+	
+	fen.deiconify()
+
+
+
 
 def conf_validate(nbre_core, nbre_ram, nbre_stock, bp, final_per, per):
 	prosses.main(nbre_core, nbre_ram, nbre_stock, bp, final_per, per)
@@ -48,6 +61,28 @@ def on_closing():
 def avertissement():
 	warning = messagebox.showwarning("Test de connexion",'Veuillez attendre un instant, nous testons votre connexion.\nCliquez sur "OK" pour continuer ')
 
+def login():
+	log = Tk()  
+	log.geometry('400x150')  
+	log.title('Login')
+
+	#username label and text entry box
+	usernameLabel = Label(log, text="User Name").grid(row=0, column=0)
+	username = StringVar()
+	usernameEntry = Entry(log, textvariable=username).grid(row=0, column=1)  
+
+	#password label and password entry box
+	passwordLabel = Label(log,text="Password").grid(row=1, column=0)  
+	password = StringVar()
+	passwordEntry = Entry(log, textvariable=password, show='*').grid(row=1, column=1)  
+	validatelogin = partial(validateLogin, username, password, log)
+	
+	#login button
+	loginButton = Button(log, text="Login", command=validatelogin).grid(row=4, column=0)  
+	log.protocol("WM_DELETE_WINDOW", on_closing)
+
+
+	log.mainloop()
 
 def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 	conf = Tk()
@@ -161,7 +196,7 @@ grille.create_window(45,220,window=btn_all)
 #Boutton de validation
 btn_validate = Button(fen, text ="Valider", command = appui_btn_validate, font= ("Arial", 9), bg="#D5D7C9")
 grille.create_window(30,260,window=btn_validate)
-
+fen.protocol("WM_DELETE_WINDOW", on_closing)
 
 
 
@@ -170,5 +205,8 @@ grille.create_window(30,260,window=btn_validate)
 
 
 
-fen.protocol("WM_DELETE_WINDOW", on_closing)
-fen.mainloop()
+if __name__ == "__main__":
+	fen.withdraw()
+	login()
+	
+	
