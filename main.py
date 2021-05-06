@@ -4,6 +4,7 @@ import psutil
 import speedtest
 from math import *
 import prosses
+from functools import partial
 
 #=====Parametre de la fenetre=====
 fen=Tk()
@@ -25,8 +26,9 @@ grille.grid(row=0,column=0)
 
 
 #=====Les fonctions=====
-def conf_validate():
-	prosses.main()
+
+def conf_validate(nbre_core, nbre_ram, nbre_stock, bp, final_per, per):
+	prosses.main(nbre_core, nbre_ram, nbre_stock, bp, final_per, per)
 	exit()
 
 def appui_btn_validate():
@@ -49,7 +51,6 @@ def on_closing():
 
 def avertissement():
 	warning = messagebox.showwarning("Test de connexion",'Veuillez attendre un instant, nous testons votre connexion.\nCliquez sur "OK" pour continuer ')
-
 
 
 def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
@@ -85,9 +86,13 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 		b = 60
 		#On calcule le prix et le pourcentage que le proprio aura
 		one_pr = round((psutil.cpu_count()*0.65)+(floor(psutil.virtual_memory().available/1073741274)*0.50)+(stock*0.030)+(bp*0.01),2)
-		two_pr = one_pr - ((commi/100)*one_pr)
-		final_per = round(one_pr - two_pr, 2)
-		prix_reste = one_pr - final_per
+		per = (commi * one_pr) / 100.0
+		final_per = one_pr - per
+		cores_number = float(psutil.cpu_count())
+		ram_number = floor(psutil.virtual_memory().available/1073741274)
+		stockage_number = stock
+		bande_passante = bp
+
 	else:
 		text = f'Vous allez allouer:\n {nbre_core} cœurs\n{nbre_ram} GB de RAM\n{nbre_stockage} GB de stockage\net {bp} Mb/s de bande passante'
 		a = 250
@@ -97,6 +102,7 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 		ram_number = float(nbre_ram)
 		stockage_number = float(nbre_stockage)
 		bp_number = float(bp)
+		bande_passante = bp
 		one_pr = round((cores_number*0.65)+(ram_number*0.50)+(stockage_number*0.030)+(bp_number*0.01),2)
 		per = (commi * one_pr) / 100.0
 		final_per = one_pr-per
@@ -114,10 +120,12 @@ def confirmation(nbre_core, nbre_ram, nbre_stockage, all_yes):
 	grille_conf.create_window(400,190, window=text_prix)
 
 
-	btn_conf = Button(conf, text ="Valider", command = conf_validate, font=("Arial", 12), bg="#D5D7C9")
+	yeys = False
+	btn_conf = Button(conf, text ="Valider", command = lambda: conf_validate(cores_number, ram_number, stockage_number, bande_passante, final_per, per), font=("Arial", 12), bg="#D5D7C9")
 	grille_conf.create_window(250,190, window=btn_conf)
 
-
+	
+	
 	conf.protocol("WM_DELETE_WINDOW", on_closing)
 	conf.mainloop()
 
