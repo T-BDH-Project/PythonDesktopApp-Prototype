@@ -4,7 +4,6 @@ import psutil
 import speedtest
 from math import *
 import prosses
-from functools import partial
 
 #=====Parametre de la fenetre=====
 fen=Tk()
@@ -15,9 +14,6 @@ fen.iconbitmap('icon.ico')
 
 grille=Canvas(fen,height=400,width=250)
 grille.grid(row=0,column=0)
-
-
-#On dois bouger le label du prix
 
 
 
