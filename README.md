@@ -2,9 +2,8 @@
 ## _PythonDesktopApp-Prototyper_
 
 
-[![Generic badge](https://img.shields.io/badge/Python:-V3.7-freen.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Python:-V3.7-freen.svg)](https://shields.io/)  [![CC BY-NC-ND 4.0][cc-by-nc-nd-shield]][cc-by-nc-nd]
 
-[![CC BY-NC-ND 4.0][cc-by-nc-nd-shield]][cc-by-nc-nd]
 ## Description
 PythonDesktopApp-Prototype est un prototype pour une future application: **Tor-Based Decentralized Hosting**
 **TBDH** est un projet d'hébergement web décentralisé basé sur le réseau Tor.
